@@ -1,0 +1,15 @@
+name: ci
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+
+    - name: build application image
+      run: docker build -f ./src/Dockerfile -t latest ./src
