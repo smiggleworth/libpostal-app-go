@@ -3,9 +3,10 @@
 # libpostal-app-go
 libpostal app example using go 
 
-# How to run
-
-
+# Run
+```
+  docker-compose up
+```
 
 # Credits
 - https://github.com/openvenues/libpostal
