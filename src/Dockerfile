@@ -5,13 +5,6 @@ RUN apk update && \
     apk add --no-cache --virtual .build-deps curl gcc g++ autoconf automake libtool pkgconfig alpine-sdk git bash git openssh && \
     rm -rf /var/lib/apt/lists/*
 
-# FROM golang
-
-# RUN apt-get update && \
-#     apt-get install -y autoconf automake libtool pkg-config python && \
-#     rm -rf /var/lib/apt/lists/*
-
-#RUN git clone --branch 'v1.0'  https://github.com/openvenues/libpostal /libpostal
 RUN git clone https://github.com/openvenues/libpostal /libpostal
 
 WORKDIR /libpostal

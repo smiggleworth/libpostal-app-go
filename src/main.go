@@ -46,17 +46,24 @@ func toCamelInitCase(s string) string {
 }
 
 func parse(a string) map[string]string {
-
 	m := make(map[string]string)
-
 	for _, c := range parser.ParseAddress(a) {
 		m[toCamelInitCase(c.Label)] = c.Value
 	}
-
 	return m
 }
 
+func explode(a string) []map[string]string {
+	r := make([]map[string]string, 0)
+	for _, entry := range expand.ExpandAddress(a) {
+		r = append(r, parse(entry))
+	}
+	return r
+}
+
 func main() {
+	gin.SetMode(gin.ReleaseMode)
+
 	r := gin.Default()
 	r.Use(gzip.Gzip(gzip.DefaultCompression))
 
@@ -86,19 +93,12 @@ func main() {
 
 	r.GET("/explode", func(c *gin.Context) {
 		a := c.Query("address")
-
 		if a == "" {
 			c.JSON(400, gin.H{"message": "invalid address"})
 			return
 		}
-
-		r := []map[string]string{}
-		for _, a := range expand.ExpandAddress(a) {
-			r = append(r, parse(a))
-		}
-
-		c.JSON(200, r)
+		c.JSON(200, explode(a))
 	})
 
-	r.Run("0.0.0.0:80")
+	r.Run(":80")
 }
