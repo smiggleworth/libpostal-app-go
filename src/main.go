@@ -55,6 +55,7 @@ func parse(a string) map[string]string {
 
 func explode(a string) []map[string]string {
 	r := make([]map[string]string, 0)
+	r = append(r, parse(a))
 	for _, entry := range expand.ExpandAddress(a) {
 		r = append(r, parse(entry))
 	}
